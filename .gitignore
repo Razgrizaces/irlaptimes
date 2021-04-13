@@ -1,0 +1,5 @@
+chrome-data/**
+py/cookies.py
+credentials.json
+readme.txt
+debug.log
