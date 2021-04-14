@@ -153,18 +153,10 @@ def parse_json(data, parse):
         data = data[parse]
     return data
 
-def parse_and_create_json(data, file_name, parse):
-    create_json_file(parse_json(data, parse), file_name)
-
 def create_df_from_json_fields(data, kept_fields):
     new_json = dict((field, str(data[field])) for field in kept_fields if field in data)
     df = pd.DataFrame(new_json, index=[0], columns = kept_fields)
     return df
-
-def create_df_from_json_file(file_name):
-    json_file_name = file_name + JSON
-    df = pd.read_json(json_file_name)
-    return df    
 
 def create_df_from_json_data(json_data):
     df = pd.DataFrame(json_data)
@@ -173,10 +165,6 @@ def create_df_from_json_data(json_data):
 def save_df_to_csv(df, file_name):
     csv_file_name = file_name + CSV
     df.to_csv(csv_file_name, encoding='utf-8', mode = "w")
-
-#simple helper method to cut down code since I copy it in almost all the methods
-def create_df_and_save_to_csv(file_name):
-    save_df_to_csv(create_df_from_json(file_name), file_name)
 
 #lines up the columns with the amount for the df we have to 
 def create_df_to_add_columns(df, size):
@@ -232,6 +220,7 @@ def get_df_from_season(driver, only_active, field_type_int):
 def loop_through_season_df(season_df, type_string):
     season_ids = season_df['seasonid'].tolist()
     type_df = season_df[type_string]
+    type_df = type_df.reset_index(drop = True)
     season_df = season_df.drop(type_string, axis = 1)
     season_with_fields_df = pd.DataFrame()
     for i in range (0, len(season_ids)):
@@ -384,32 +373,34 @@ def remove_ascii_characters_from_df(df, column):
         df[column] = df[column].str.replace(strings_to_replace[replace_index], strings_replaced[replace_index])
     return df
 
+def cleanup_df(df, is_season):
+    if is_season == 1:
+        df['seriesname'] = df['seriesname'].str.replace("+", " ")
+    else:
+        df['name'] = df['name'].str.replace("+", " ")
+    df = df.sort_values(by = "id")
+    df = df.drop_duplicates(subset = "id")
+    df = df.reset_index(drop = True)
+    return df
+
 def get_cars_df(driver):
     season_df = get_df_from_season(driver, 1, 1)
 
     cars_df = loop_through_season_df(season_df, "cars")
     columns = ['id','name']
-    
     #replaces the + with spaces for readability, removes duplicates and sorts the value by id
-    cars_df['name'] = cars_df['name'].str.replace("+", " ")
     cars_df = cars_df[columns]
-    cars_df = cars_df.sort_values(by = "id")
-    cars_df = cars_df.drop_duplicates(subset = "id")
-    cars_df = cars_df.reset_index(drop = True)
+    cars_df = cleanup_df(cars_df, 0)
     #for some reason, iracing includes these dumb %s... gotta delete them
     cars_df = remove_ascii_characters_from_df(cars_df, 'name')
     return cars_df
 
 def get_season_df(driver):
     season_df = get_df_from_season(driver, 1, 2)
-    season_df['seriesname'] = season_df['seriesname'].str.replace("+", " ")
-    
     #replaces the + with spaces for readability, removes duplicates and sorts the value by id
     #columns = ['seasonid','seriesname']
     #season_df = season_df[columns]
-    season_df = season_df.sort_values(by = "seasonid")
-    season_df = season_df.drop_duplicates(subset = "seasonid")
-    season_df = season_df.reset_index(drop = True)
+    season_df = cleanup_df(season_df, 1)
     return season_df
 
 def get_track_df(driver):
@@ -418,12 +409,15 @@ def get_track_df(driver):
     track_df = loop_through_season_df(season_df, "tracks")
     track_df['name'] = track_df['name'] +"|" +  track_df['config']
     track_df = track_df[columns]
-    track_df['name'] = track_df['name'].str.replace("+", " ")
-    track_df = track_df.sort_values(by = "name")
-    track_df = track_df.drop_duplicates(subset = "name")
-    track_df = track_df.reset_index(drop = True)
+    track_df = cleanup_df(track_df, 0)
     return track_df
 
+def get_track_per_season(driver, seasonid):
+    season_df = get_df_from_season(driver, 1, 3)
+    season_df = season_df[season_df["seasonid"] == seasonid]
+    track_df = loop_through_season_df(season_df, "tracks")
+    return track_df
+    
 #updates cars and adds them to a new file
 def update_cars_csv(driver, file_name):
     save_df_to_csv(get_cars_df(driver), file_name)

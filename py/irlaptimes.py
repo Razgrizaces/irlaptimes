@@ -80,24 +80,33 @@ def create_directory(dir_name):
 
 def create_season_directories(driver, catid):
     season_df = ir_api.get_season_df(driver)
-    #getting only the road series, dirt is 3 and oval is 1, rally prob is 4
-    mapping_path = RESULTS + MAPPING + CURRENT_SEASON + "season_ids"
+    #getting only the road series, oval 1, road is 2, dirt is 3, rally prob is 4
+    mapping_path = RESULTS + MAPPING + CURRENT_SEASON + "_season_ids"
     ir_api.save_df_to_csv(season_df, mapping_path)
     
     season_df = season_df[season_df["catid"] == catid]
     print(season_df)
     #create the season folder
     season_path = RESULTS + CURRENT_SEASON_FOLDER
+    #create the seasons for that season folder
     create_directory(season_path)
     for s in season_df["seasonid"]: 
         path = RESULTS + CURRENT_SEASON_FOLDER + str(s)
         create_directory(path)
+
+#create week directory mappings
+def create_week_directories(driver, seasonid):
+    week_df = ir_api.get_track_per_season(driver, seasonid)
     
+    print(week_df)
+
 
 def main():
     driver = ir_api.initialize_driver()
     ir_api.login(driver)
-    create_season_directories(driver, 2)
+    #create_season_directories(driver, 2)
+    
+    create_week_directories(driver, 3164)
     input("Press enter to quit")
     #ir_api.update_active()
     driver.quit()
