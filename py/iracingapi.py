@@ -391,7 +391,6 @@ def cleanup_df(df, is_season):
 
 def get_cars_df(driver):
     season_df = get_df_from_season(driver, 1, 1)
-
     cars_df = loop_through_season_df(season_df, "cars")
     columns = ['id','name']
     #replaces the + with spaces for readability, removes duplicates and sorts the value by id
@@ -410,12 +409,16 @@ def get_series_df(driver):
     return series_df
 
 def get_track_df(driver):
-    season_df = get_df_from_season(driver, 1, 3)
+    track_df = get_all_tracks_per_season(driver)
     columns = ['name', 'id']
-    track_df = loop_through_season_df(season_df, "tracks")
     track_df['name'] = track_df['name'] +"|" +  track_df['config']
     track_df = track_df[columns]
     track_df = cleanup_df(track_df, 0)
+    return track_df
+
+def get_all_tracks_per_season(driver):
+    season_df = get_df_from_season(driver, 1, 3)
+    track_df = loop_through_season_df(season_df, "tracks")
     return track_df
 
 def get_track_per_season(driver, seasonid):

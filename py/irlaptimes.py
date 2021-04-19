@@ -108,6 +108,9 @@ def fix_week_df(week_df):
     
     #adding this to match the directories
     week_df['id_name'] = week_df['seasonid'].astype(str) + "#" + week_df['seriesname'].str.replace("+","_")
+    
+    #reset the index+
+    week_df = week_df.reset_index(drop = True)
     return week_df
 
 #create week directory mappings
@@ -123,10 +126,19 @@ def create_week_directories(week_df, seasonid):
 
 def create_season_directories(driver):
     series_df = ir_api.get_series_df(driver)
-    print(series_df)
     series_df = create_series_directories(series_df, 2)
+    tracks_df = ir_api.get_all_tracks_per_season(driver)
+    driver.quit()
     for s in series_df['seasonid']:
-        print(s)
+        week_df = tracks_df[tracks_df['seasonid'] == s]
+        week_df = fix_week_df(week_df)
+        create_week_directories(week_df, s)
+
+def create_season_directories_slow(driver):
+    series_df = ir_api.get_series_df(driver)
+    series_df = create_series_directories(series_df, 2)
+    tracks_df = ir_api.get_all_tracks_per_season(driver)
+    for s in series_df['seasonid']:
         week_df = ir_api.get_track_per_season(driver, s)
         week_df = fix_week_df(week_df)
         create_week_directories(week_df, s)
@@ -135,9 +147,13 @@ def main():
     driver = ir_api.initialize_driver()
     ir_api.login(driver)
     create_season_directories(driver)
-    input("Press enter to quit")
-    #ir_api.update_active()
+    #this uses a separate connection per series, pretty slow, about 9-10s slower
+    #create_season_directories_slow(driver)
     driver.quit()
+    
+    #input("Press enter to quit")   
+    #ir_api.update_active()
+    #driver.quit()
     
 
 main()
