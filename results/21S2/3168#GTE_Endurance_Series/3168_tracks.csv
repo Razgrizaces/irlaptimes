@@ -1,0 +1,7 @@
+,seriesname,seasonid,lowername,name,id,pkgid,priority,raceweek,config,timeOfDay,id_name
+0,GTE+Endurance+Series,3168,sebring+international+raceway,1_Sebring_International_Raceway#International,95,40,1,1,International,2,3168#GTE_Endurance_Series
+1,GTE+Endurance+Series,3168,daytona+international+speedway,2_Daytona_International_Speedway#Road_Course,192,120,0,2,Road+Course,3,3168#GTE_Endurance_Series
+2,GTE+Endurance+Series,3168,n%C3%BCrburgring+grand-prix-strecke,3_Nürburgring_Grand-Prix-Strecke#BES%2FWEC,255,185,4,3,BES%2FWEC,0,3168#GTE_Endurance_Series
+3,GTE+Endurance+Series,3168,watkins+glen+international,4_Watkins_Glen_International#Boot,107,56,2,4,Boot,0,3168#GTE_Endurance_Series
+4,GTE+Endurance+Series,3168,silverstone+circuit,5_Silverstone_Circuit#Grand_Prix,341,282,1,5,Grand+Prix,9,3168#GTE_Endurance_Series
+5,GTE+Endurance+Series,3168,twin+ring+motegi,6_Twin_Ring_Motegi#Grand_Prix,195,123,0,6,Grand+Prix,3,3168#GTE_Endurance_Series

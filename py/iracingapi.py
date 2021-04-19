@@ -106,7 +106,11 @@ def initialize_driver():
     #setting chrome options; note this uses chromedriver_81, use whatever driver you have
     chrome_options = Options()
     chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
-    chrome_options.add_argument("--user-data-dir=chrome-data")
+    chrome_options.add_argument("--disable-extensions"); # disabling extensions
+    chrome_options.add_argument("--disable-gpu"); # applicable to windows os only
+    chrome_options.add_argument("--disable-dev-shm-usage"); # overcome limited resource problems
+    chrome_options.add_argument("--no-sandbox");
+    chrome_options.add_argument("--remote-debugging-port=9225");
     driver = webdriver.Chrome("dependencies\\chromedriver.exe", options=chrome_options)
     return driver
 
@@ -164,7 +168,7 @@ def create_df_from_json_data(json_data):
 
 def save_df_to_csv(df, file_name):
     csv_file_name = file_name + CSV
-    df.to_csv(csv_file_name, encoding='utf-8', mode = "w")
+    df.to_csv(csv_file_name, encoding='utf-8', mode = "+w")
 
 #lines up the columns with the amount for the df we have to 
 def create_df_to_add_columns(df, size):
@@ -374,12 +378,14 @@ def remove_ascii_characters_from_df(df, column):
     return df
 
 def cleanup_df(df, is_season):
+    df_name = "name"
+    df_id = "id"
     if is_season == 1:
-        df['seriesname'] = df['seriesname'].str.replace("+", " ")
-    else:
-        df['name'] = df['name'].str.replace("+", " ")
-    df = df.sort_values(by = "id")
-    df = df.drop_duplicates(subset = "id")
+        df_name = "seriesname"
+        df_id = "seasonid"
+    df[df_name] = df[df_name].str.replace("+", " ")
+    df = df.sort_values(by = df_id)
+    df = df.drop_duplicates(subset = df_id)
     df = df.reset_index(drop = True)
     return df
 
@@ -395,13 +401,13 @@ def get_cars_df(driver):
     cars_df = remove_ascii_characters_from_df(cars_df, 'name')
     return cars_df
 
-def get_season_df(driver):
-    season_df = get_df_from_season(driver, 1, 2)
+def get_series_df(driver):
+    series_df = get_df_from_season(driver, 1, 2)
     #replaces the + with spaces for readability, removes duplicates and sorts the value by id
     #columns = ['seasonid','seriesname']
     #season_df = season_df[columns]
-    season_df = cleanup_df(season_df, 1)
-    return season_df
+    series_df = cleanup_df(series_df, 1)
+    return series_df
 
 def get_track_df(driver):
     season_df = get_df_from_season(driver, 1, 3)
@@ -511,4 +517,5 @@ def main():
     #lc_df_loc = MANIPULATED_RESULTS + "31717531" + LAP_DATA + CSV
     #lc_df = pd.read_csv(lc_df_loc, index_col=[0])
     #process_lap_chart_data(lc_df)
+
 #main()

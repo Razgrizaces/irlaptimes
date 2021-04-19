@@ -1,0 +1,13 @@
+,seriesname,seasonid,lowername,name,id,pkgid,priority,raceweek,config,timeOfDay,id_name
+0,Ferrari+GT3+Challenge+-+Fixed,3129,weathertech+raceway+at+laguna+seca,1_WeatherTech_Raceway_at_Laguna_Seca#Full_Course,47,34,1,1,Full+Course,0,3129#Ferrari_GT3_Challenge_-_Fixed
+1,Ferrari+GT3+Challenge+-+Fixed,3129,road+america,2_Road_America#Full_Course,18,11,1,2,Full+Course,0,3129#Ferrari_GT3_Challenge_-_Fixed
+2,Ferrari+GT3+Challenge+-+Fixed,3129,circuit+de+spa-francorchamps,3_Circuit_de_Spa-Francorchamps#Grand_Prix_Pits,163,103,2,3,Grand+Prix+Pits,0,3129#Ferrari_GT3_Challenge_-_Fixed
+3,Ferrari+GT3+Challenge+-+Fixed,3129,summit+point+raceway,4_Summit_Point_Raceway#Summit_Point_Raceway,9,13,1,4,Summit+Point+Raceway,0,3129#Ferrari_GT3_Challenge_-_Fixed
+4,Ferrari+GT3+Challenge+-+Fixed,3129,road+atlanta,5_Road_Atlanta#Full_Course,127,67,1,5,Full+Course,2,3129#Ferrari_GT3_Challenge_-_Fixed
+5,Ferrari+GT3+Challenge+-+Fixed,3129,charlotte+motor+speedway,6_Charlotte_Motor_Speedway#Roval,350,268,0,6,Roval,2,3129#Ferrari_GT3_Challenge_-_Fixed
+6,Ferrari+GT3+Challenge+-+Fixed,3129,lime+rock+park,7_Lime_Rock_Park#Grand_Prix,353,304,1,7,Grand+Prix,1,3129#Ferrari_GT3_Challenge_-_Fixed
+7,Ferrari+GT3+Challenge+-+Fixed,3129,okayama+international+circuit,8_Okayama_International_Circuit#Full_Course,166,109,0,8,Full+Course,9,3129#Ferrari_GT3_Challenge_-_Fixed
+8,Ferrari+GT3+Challenge+-+Fixed,3129,hockenheimring+baden-w%C3%BCrttemberg,9_Hockenheimring_Baden-Württemberg#Grand_Prix,390,350,0,9,Grand+Prix,0,3129#Ferrari_GT3_Challenge_-_Fixed
+9,Ferrari+GT3+Challenge+-+Fixed,3129,watkins+glen+international,10_Watkins_Glen_International#Boot,107,56,2,10,Boot,0,3129#Ferrari_GT3_Challenge_-_Fixed
+10,Ferrari+GT3+Challenge+-+Fixed,3129,autodromo+internazionale+enzo+e+dino+ferrari,11_Autodromo_Internazionale_Enzo_e_Dino_Ferrari#Grand_Prix,266,197,0,11,Grand+Prix,9,3129#Ferrari_GT3_Challenge_-_Fixed
+11,Ferrari+GT3+Challenge+-+Fixed,3129,long+beach+street+circuit,12_Long_Beach_Street_Circuit#,179,116,0,12,,9,3129#Ferrari_GT3_Challenge_-_Fixed

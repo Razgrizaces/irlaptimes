@@ -1,0 +1,13 @@
+,seriesname,seasonid,lowername,name,id,pkgid,priority,raceweek,config,timeOfDay,id_name
+0,VRS+GT+Sprint+Series,3164,watkins+glen+international,1_Watkins_Glen_International#Boot,107,56,2,1,Boot,0,3164#VRS_GT_Sprint_Series
+1,VRS+GT+Sprint+Series,3164,sebring+international+raceway,2_Sebring_International_Raceway#International,95,40,1,2,International,1,3164#VRS_GT_Sprint_Series
+2,VRS+GT+Sprint+Series,3164,daytona+international+speedway,3_Daytona_International_Speedway#Road_Course,192,120,0,3,Road+Course,3,3164#VRS_GT_Sprint_Series
+3,VRS+GT+Sprint+Series,3164,lime+rock+park,4_Lime_Rock_Park#Classic,352,304,2,4,Classic,1,3164#VRS_GT_Sprint_Series
+4,VRS+GT+Sprint+Series,3164,hockenheimring+baden-w%C3%BCrttemberg,5_Hockenheimring_Baden-Württemberg#Grand_Prix,390,350,0,5,Grand+Prix,0,3164#VRS_GT_Sprint_Series
+5,VRS+GT+Sprint+Series,3164,n%C3%BCrburgring+combined,6_Nürburgring_Combined#Gesamtstrecke_24h,252,186,8,6,Gesamtstrecke+24h,0,3164#VRS_GT_Sprint_Series
+6,VRS+GT+Sprint+Series,3164,road+america,7_Road_America#Full_Course,18,11,1,7,Full+Course,1,3164#VRS_GT_Sprint_Series
+7,VRS+GT+Sprint+Series,3164,phillip+island+circuit,8_Phillip_Island_Circuit#,152,93,0,8,,0,3164#VRS_GT_Sprint_Series
+8,VRS+GT+Sprint+Series,3164,okayama+international+circuit,9_Okayama_International_Circuit#Full_Course,166,109,0,9,Full+Course,1,3164#VRS_GT_Sprint_Series
+9,VRS+GT+Sprint+Series,3164,autodromo+nazionale+monza,10_Autodromo_Nazionale_Monza#Grand_Prix,239,172,1,10,Grand+Prix,0,3164#VRS_GT_Sprint_Series
+10,VRS+GT+Sprint+Series,3164,circuit+of+the+americas,11_Circuit_of_the_Americas#Grand_Prix,229,154,0,11,Grand+Prix,1,3164#VRS_GT_Sprint_Series
+11,VRS+GT+Sprint+Series,3164,circuit+de+spa-francorchamps,12_Circuit_de_Spa-Francorchamps#Endurance,165,103,0,12,Endurance,0,3164#VRS_GT_Sprint_Series

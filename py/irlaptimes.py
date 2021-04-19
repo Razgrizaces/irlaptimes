@@ -77,37 +77,67 @@ def create_directory(dir_name):
     except:
         print("The directory " + dir_name + " exists.")
 
-
-def create_season_directories(driver, catid):
-    season_df = ir_api.get_season_df(driver)
+def create_series_directories(series_df, catid):
     #getting only the road series, oval 1, road is 2, dirt is 3, rally prob is 4
     mapping_path = RESULTS + MAPPING + CURRENT_SEASON + "_season_ids"
-    ir_api.save_df_to_csv(season_df, mapping_path)
+    ir_api.save_df_to_csv(series_df, mapping_path)
     
-    season_df = season_df[season_df["catid"] == catid]
-    print(season_df)
+    series_df = series_df[series_df["catid"] == catid]
     #create the season folder
     season_path = RESULTS + CURRENT_SEASON_FOLDER
     #create the seasons for that season folder
     create_directory(season_path)
-    for s in season_df["seasonid"]: 
+    
+    series_df["id_name"] = series_df["seasonid"].astype(str) + "#" +  series_df["seriesname"].str.replace(" ", "_")
+    for s in series_df["id_name"]: 
         path = RESULTS + CURRENT_SEASON_FOLDER + str(s)
         create_directory(path)
+    return series_df
+
+def fix_week_df(week_df):
+    #adds one to the raceweek since it starts at 0
+    week_df['raceweek'] = week_df['raceweek'].astype(int) + 1
+    week_df['raceweek'] = week_df['raceweek'].astype(str)
+ 
+    #creates the folder for the week. 
+    week_df['name'] = week_df['raceweek'] + "_" + week_df['name'] + "#" + week_df['config']
+    week_df['name'] = week_df['name'].str.replace("+", "_")
+    
+    #for the umalut 'cause iracing is dumb
+    week_df['name'] = week_df['name'].str.replace("%C3%BC", "ü")
+    
+    #adding this to match the directories
+    week_df['id_name'] = week_df['seasonid'].astype(str) + "#" + week_df['seriesname'].str.replace("+","_")
+    return week_df
 
 #create week directory mappings
-def create_week_directories(driver, seasonid):
-    week_df = ir_api.get_track_per_season(driver, seasonid)
+def create_week_directories(week_df, seasonid):
+    #drop the dataframe in the directory
+    season_path = RESULTS + CURRENT_SEASON_FOLDER + week_df['id_name'][0]
+    csv_path = season_path + "\\" + str(seasonid) + "_tracks"
+    ir_api.save_df_to_csv(week_df, csv_path)
     
-    print(week_df)
+    for s in week_df["name"]:
+        track_path = season_path + "\\" + s
+        create_directory(track_path)
 
+def create_season_directories(driver):
+    series_df = ir_api.get_series_df(driver)
+    print(series_df)
+    series_df = create_series_directories(series_df, 2)
+    for s in series_df['seasonid']:
+        print(s)
+        week_df = ir_api.get_track_per_season(driver, s)
+        week_df = fix_week_df(week_df)
+        create_week_directories(week_df, s)
 
 def main():
     driver = ir_api.initialize_driver()
     ir_api.login(driver)
-    #create_season_directories(driver, 2)
-    
-    create_week_directories(driver, 3164)
+    create_season_directories(driver)
     input("Press enter to quit")
     #ir_api.update_active()
     driver.quit()
+    
+
 main()
