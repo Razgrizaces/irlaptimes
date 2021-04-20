@@ -1,92 +1,92 @@
-,seriesname,catid,seasonid
-0,NASCAR iRacing Series - Open,1,3118
-1,NASCAR iRacing Series - Fixed,1,3119
-2,NASCAR iRacing Class B,1,3120
-3,NASCAR iRacing Class C,1,3121
-4,eNASCAR Road to Pro Qual Series - Round 1,1,3122
-5,Fanatec Street Stock Series - R,1,3123
-6,Fanatec Global Mazda MX-5 Cup,2,3124
-7,iRacing Advanced Legends Cup,1,3125
-8,Cooper Tires USF 2000 Championship - Fixed,2,3126
-9,BMW 12.0 Challenge - Fixed,2,3127
-10,Turn Racing Touring Car Challenge,2,3128
-11,Ferrari GT3 Challenge - Fixed,2,3129
-12,iRacing Late Model Tour,1,3130
-13,iRacing Late Model Tour - Fixed,1,3131
-14,iRacing ARCA Menards Series,1,3132
-15,RYCO-Motorsports.com SK Modifieds,1,3133
-16,SK Modified Weekly Series - Fixed,1,3134
-17,Skip Barber Race Series,2,3135
-18,iRacing Formula Renault 2.0,2,3136
-19,IMSA Michelin Pilot Challenge,2,3137
-20,Ruf GT3 Challenge,2,3138
-21,iRacing Spec Racer Ford Challenge,2,3139
-22,Fanatec Global Challenge,2,3140
-23,Radical Racing Challenge C,2,3141
-24,Kamel GT Championship ,2,3142
-25,iRacing Street Stock Series - C,1,3143
-26,NASCAR iRacing Tour Modified Series,1,3144
-27,NASCAR iRacing Tour Modified Series - Fixed,1,3145
-28,iRacing Super Late Model Series,1,3146
-29,iRacing Super Late Model Series - Fixed,1,3147
-30,NASCAR iRacing Class C Fixed,1,3148
-31,NASCAR Legends Series,1,3149
-32,IndyCar Series - Oval - Fixed,1,3150
-33,IndyCar Series - Road,2,3151
-34,Advanced Mazda MX-5 Cup Series,2,3152
-35,Apex Racing Academy F3 Championship,2,3153
-36,Indy Pro 2000 Championship,2,3154
-37,Supercars Series,2,3155
-38,Supercars Series - Australian Server Only,2,3156
-39,Porsche iRacing Cup,2,3157
-40,Heusinkveld GT Challenge,2,3158
-41,Grand Prix Legends,2,3159
-42,NASCAR iRacing Class B Fixed,1,3160
-43,iRacing Silver Crown Cup,1,3161
-44,iRacing Sprint Car Cup,1,3162
-45,IMSA Hagerty iRacing Series,2,3163
-46,VRS GT Sprint Series,2,3164
-47,VRS GT Endurance Series,2,3165
-48,Pure Driving School European Sprint Series,2,3166
-49,VRS European Endurance Series,2,3167
-50,GTE Endurance Series,2,3168
-51,Classic Lotus Grand Prix,2,3169
-52,iRacing Formula 3.5 Championship,2,3170
-53,NASCAR iRacing Class A Fixed ,1,3171
-54,NASCAR iRacing Class A,1,3172
-55,iRacing Grand Prix Series,2,3173
-56,Dallara Formula iR,2,3174
-57,Carburetor Cup,1,3175
-58,Trak Racer Dallara Dash,1,3176
-59,PickUp Cup,1,3177
-60,ButtKicker DIRTcar Street Stock Series - Fixed,3,3178
-61,iRacing Dirt Legends Cup,3,3179
-62,Fanatec DIRTcar 305 Sprint Car Series,3,3180
-63,DIRTcar Limited Late Model Series,3,3181
-64,DIRTcar 358 Modified Series,3,3182
-65,DIRTcar 360 Sprint Car Series ,3,3183
-66,USAC 360 Sprint Car Series,3,3184
-67,DIRTcar Class C Street Stock Series - Fixed,3,3185
-68,World of Outlaws Late Model Series - Fixed,3,3186
-69,iRacing Dirt Midget Cup,3,3187
-70,DIRTcar Pro Late Model Series ,3,3188
-71,DIRTcar UMP Modified Series - Fixed,3,3189
-72,SUPER DIRTcar Big Block Modified Series,3,3190
-73,World of Outlaws Sprint Car Series,3,3191
-74,AMSOIL USAC Sprint Car,3,3192
-75,World of Outlaws Late Model Series ,3,3193
-76,Sling Mud for Fun - Sprint Cars,3,3194
-77,Rookie iRacing Rallycross Series,4,3195
-78,Pro 2 Lite Truck Championship,4,3196
-79,iRacing Rallycross Series,4,3197
-80,Pro 4 Off Road Racing Series,4,3198
-81,Pro 2 and Pro 2 Lite Off Road Racing Series,4,3199
-82,Sim-Lab Production Car Challenge,2,3201
-83,Fanatec GT3 Challenge - Fixed,2,3202
-84,BMW Sim GT Cup,2,3223
-85,12 Hours of Sebring,2,3224
-86,Nurburgring Endurance Championship,2,3225
-87,Creventic Endurance Series,2,3226
-88,IndyCar iRacing Series,2,3227
-89,Throwback Cup,1,3228
-90,24 Hours of Nurburgring,2,3229
+,seriesname,catid,seasonid,id_name
+0,NASCAR iRacing Series - Open,1,3118,3118#NASCAR_iRacing_Series_-_Open
+1,NASCAR iRacing Series - Fixed,1,3119,3119#NASCAR_iRacing_Series_-_Fixed
+2,NASCAR iRacing Class B,1,3120,3120#NASCAR_iRacing_Class_B
+3,NASCAR iRacing Class C,1,3121,3121#NASCAR_iRacing_Class_C
+4,eNASCAR Road to Pro Qual Series - Round 1,1,3122,3122#eNASCAR_Road_to_Pro_Qual_Series_-_Round_1
+5,Fanatec Street Stock Series - R,1,3123,3123#Fanatec_Street_Stock_Series_-_R
+6,Fanatec Global Mazda MX-5 Cup,2,3124,3124#Fanatec_Global_Mazda_MX-5_Cup
+7,iRacing Advanced Legends Cup,1,3125,3125#iRacing_Advanced_Legends_Cup
+8,Cooper Tires USF 2000 Championship - Fixed,2,3126,3126#Cooper_Tires_USF_2000_Championship_-_Fixed
+9,BMW 12.0 Challenge - Fixed,2,3127,3127#BMW_12.0_Challenge_-_Fixed
+10,Turn Racing Touring Car Challenge,2,3128,3128#Turn_Racing_Touring_Car_Challenge
+11,Ferrari GT3 Challenge - Fixed,2,3129,3129#Ferrari_GT3_Challenge_-_Fixed
+12,iRacing Late Model Tour,1,3130,3130#iRacing_Late_Model_Tour
+13,iRacing Late Model Tour - Fixed,1,3131,3131#iRacing_Late_Model_Tour_-_Fixed
+14,iRacing ARCA Menards Series,1,3132,3132#iRacing_ARCA_Menards_Series
+15,RYCO-Motorsports.com SK Modifieds,1,3133,3133#RYCO-Motorsports.com_SK_Modifieds
+16,SK Modified Weekly Series - Fixed,1,3134,3134#SK_Modified_Weekly_Series_-_Fixed
+17,Skip Barber Race Series,2,3135,3135#Skip_Barber_Race_Series
+18,iRacing Formula Renault 2.0,2,3136,3136#iRacing_Formula_Renault_2.0
+19,IMSA Michelin Pilot Challenge,2,3137,3137#IMSA_Michelin_Pilot_Challenge
+20,Ruf GT3 Challenge,2,3138,3138#Ruf_GT3_Challenge
+21,iRacing Spec Racer Ford Challenge,2,3139,3139#iRacing_Spec_Racer_Ford_Challenge
+22,Fanatec Global Challenge,2,3140,3140#Fanatec_Global_Challenge
+23,Radical Racing Challenge C,2,3141,3141#Radical_Racing_Challenge_C
+24,Kamel GT Championship ,2,3142,3142#Kamel_GT_Championship_
+25,iRacing Street Stock Series - C,1,3143,3143#iRacing_Street_Stock_Series_-_C
+26,NASCAR iRacing Tour Modified Series,1,3144,3144#NASCAR_iRacing_Tour_Modified_Series
+27,NASCAR iRacing Tour Modified Series - Fixed,1,3145,3145#NASCAR_iRacing_Tour_Modified_Series_-_Fixed
+28,iRacing Super Late Model Series,1,3146,3146#iRacing_Super_Late_Model_Series
+29,iRacing Super Late Model Series - Fixed,1,3147,3147#iRacing_Super_Late_Model_Series_-_Fixed
+30,NASCAR iRacing Class C Fixed,1,3148,3148#NASCAR_iRacing_Class_C_Fixed
+31,NASCAR Legends Series,1,3149,3149#NASCAR_Legends_Series
+32,IndyCar Series - Oval - Fixed,1,3150,3150#IndyCar_Series_-_Oval_-_Fixed
+33,IndyCar Series - Road,2,3151,3151#IndyCar_Series_-_Road
+34,Advanced Mazda MX-5 Cup Series,2,3152,3152#Advanced_Mazda_MX-5_Cup_Series
+35,Apex Racing Academy F3 Championship,2,3153,3153#Apex_Racing_Academy_F3_Championship
+36,Indy Pro 2000 Championship,2,3154,3154#Indy_Pro_2000_Championship
+37,Supercars Series,2,3155,3155#Supercars_Series
+38,Supercars Series - Australian Server Only,2,3156,3156#Supercars_Series_-_Australian_Server_Only
+39,Porsche iRacing Cup,2,3157,3157#Porsche_iRacing_Cup
+40,Heusinkveld GT Challenge,2,3158,3158#Heusinkveld_GT_Challenge
+41,Grand Prix Legends,2,3159,3159#Grand_Prix_Legends
+42,NASCAR iRacing Class B Fixed,1,3160,3160#NASCAR_iRacing_Class_B_Fixed
+43,iRacing Silver Crown Cup,1,3161,3161#iRacing_Silver_Crown_Cup
+44,iRacing Sprint Car Cup,1,3162,3162#iRacing_Sprint_Car_Cup
+45,IMSA Hagerty iRacing Series,2,3163,3163#IMSA_Hagerty_iRacing_Series
+46,VRS GT Sprint Series,2,3164,3164#VRS_GT_Sprint_Series
+47,VRS GT Endurance Series,2,3165,3165#VRS_GT_Endurance_Series
+48,Pure Driving School European Sprint Series,2,3166,3166#Pure_Driving_School_European_Sprint_Series
+49,VRS European Endurance Series,2,3167,3167#VRS_European_Endurance_Series
+50,GTE Endurance Series,2,3168,3168#GTE_Endurance_Series
+51,Classic Lotus Grand Prix,2,3169,3169#Classic_Lotus_Grand_Prix
+52,iRacing Formula 3.5 Championship,2,3170,3170#iRacing_Formula_3.5_Championship
+53,NASCAR iRacing Class A Fixed ,1,3171,3171#NASCAR_iRacing_Class_A_Fixed_
+54,NASCAR iRacing Class A,1,3172,3172#NASCAR_iRacing_Class_A
+55,iRacing Grand Prix Series,2,3173,3173#iRacing_Grand_Prix_Series
+56,Dallara Formula iR,2,3174,3174#Dallara_Formula_iR
+57,Carburetor Cup,1,3175,3175#Carburetor_Cup
+58,Trak Racer Dallara Dash,1,3176,3176#Trak_Racer_Dallara_Dash
+59,PickUp Cup,1,3177,3177#PickUp_Cup
+60,ButtKicker DIRTcar Street Stock Series - Fixed,3,3178,3178#ButtKicker_DIRTcar_Street_Stock_Series_-_Fixed
+61,iRacing Dirt Legends Cup,3,3179,3179#iRacing_Dirt_Legends_Cup
+62,Fanatec DIRTcar 305 Sprint Car Series,3,3180,3180#Fanatec_DIRTcar_305_Sprint_Car_Series
+63,DIRTcar Limited Late Model Series,3,3181,3181#DIRTcar_Limited_Late_Model_Series
+64,DIRTcar 358 Modified Series,3,3182,3182#DIRTcar_358_Modified_Series
+65,DIRTcar 360 Sprint Car Series ,3,3183,3183#DIRTcar_360_Sprint_Car_Series_
+66,USAC 360 Sprint Car Series,3,3184,3184#USAC_360_Sprint_Car_Series
+67,DIRTcar Class C Street Stock Series - Fixed,3,3185,3185#DIRTcar_Class_C_Street_Stock_Series_-_Fixed
+68,World of Outlaws Late Model Series - Fixed,3,3186,3186#World_of_Outlaws_Late_Model_Series_-_Fixed
+69,iRacing Dirt Midget Cup,3,3187,3187#iRacing_Dirt_Midget_Cup
+70,DIRTcar Pro Late Model Series ,3,3188,3188#DIRTcar_Pro_Late_Model_Series_
+71,DIRTcar UMP Modified Series - Fixed,3,3189,3189#DIRTcar_UMP_Modified_Series_-_Fixed
+72,SUPER DIRTcar Big Block Modified Series,3,3190,3190#SUPER_DIRTcar_Big_Block_Modified_Series
+73,World of Outlaws Sprint Car Series,3,3191,3191#World_of_Outlaws_Sprint_Car_Series
+74,AMSOIL USAC Sprint Car,3,3192,3192#AMSOIL_USAC_Sprint_Car
+75,World of Outlaws Late Model Series ,3,3193,3193#World_of_Outlaws_Late_Model_Series_
+76,Sling Mud for Fun - Sprint Cars,3,3194,3194#Sling_Mud_for_Fun_-_Sprint_Cars
+77,Rookie iRacing Rallycross Series,4,3195,3195#Rookie_iRacing_Rallycross_Series
+78,Pro 2 Lite Truck Championship,4,3196,3196#Pro_2_Lite_Truck_Championship
+79,iRacing Rallycross Series,4,3197,3197#iRacing_Rallycross_Series
+80,Pro 4 Off Road Racing Series,4,3198,3198#Pro_4_Off_Road_Racing_Series
+81,Pro 2 and Pro 2 Lite Off Road Racing Series,4,3199,3199#Pro_2_and_Pro_2_Lite_Off_Road_Racing_Series
+82,Sim-Lab Production Car Challenge,2,3201,3201#Sim-Lab_Production_Car_Challenge
+83,Fanatec GT3 Challenge - Fixed,2,3202,3202#Fanatec_GT3_Challenge_-_Fixed
+84,BMW Sim GT Cup,2,3223,3223#BMW_Sim_GT_Cup
+85,12 Hours of Sebring,2,3224,3224#12_Hours_of_Sebring
+86,Nurburgring Endurance Championship,2,3225,3225#Nurburgring_Endurance_Championship
+87,Creventic Endurance Series,2,3226,3226#Creventic_Endurance_Series
+88,IndyCar iRacing Series,2,3227,3227#IndyCar_iRacing_Series
+89,Throwback Cup,1,3228,3228#Throwback_Cup
+90,24 Hours of Nurburgring,2,3229,3229#24_Hours_of_Nurburgring

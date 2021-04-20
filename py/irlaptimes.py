@@ -23,6 +23,9 @@ SEASON_RESULTS = "_season_"
 JSON = ".json"
 CSV = ".csv"
 START_GRID = "_start_grid"
+SEASON_IDS = "_season_ids"
+SESSIONS = "_sessions"
+TRACKS = "_tracks"
 
 #you should change this for the season
 CURRENT_SEASON = "21S2"
@@ -74,12 +77,16 @@ TRACK_COLUMNS = "'seasonid', 'seriesname', 'lowername', 'name', 'id', 'pkgid', '
 def create_directory(dir_name):
     try:    
         os.mkdir(dir_name)
+        return 1
     except:
         print("The directory " + dir_name + " exists.")
+        return 0
 
 def create_series_directories(series_df, catid):
     #getting only the road series, oval 1, road is 2, dirt is 3, rally prob is 4
-    mapping_path = RESULTS + MAPPING + CURRENT_SEASON + "_season_ids"
+    mapping_path = RESULTS + MAPPING + CURRENT_SEASON + SEASON_IDS
+    series_df["id_name"] = series_df["seasonid"].astype(str) + "#" +  series_df["seriesname"].str.replace(" ", "_")
+    
     ir_api.save_df_to_csv(series_df, mapping_path)
     
     series_df = series_df[series_df["catid"] == catid]
@@ -88,18 +95,18 @@ def create_series_directories(series_df, catid):
     #create the seasons for that season folder
     create_directory(season_path)
     
-    series_df["id_name"] = series_df["seasonid"].astype(str) + "#" +  series_df["seriesname"].str.replace(" ", "_")
     for s in series_df["id_name"]: 
         path = RESULTS + CURRENT_SEASON_FOLDER + str(s)
-        create_directory(path)
-    return series_df
+        if(create_directory(path) == 0):
+            return 0
+    return 1
 
 def fix_week_df(week_df):
     #adds one to the raceweek since it starts at 0
     week_df['raceweek'] = week_df['raceweek'].astype(int) + 1
     week_df['raceweek'] = week_df['raceweek'].astype(str)
  
-    #creates the folder for the week. 
+    #creates the folder for the week.
     week_df['name'] = week_df['raceweek'] + "_" + week_df['name'] + "#" + week_df['config']
     week_df['name'] = week_df['name'].str.replace("+", "_")
     
@@ -117,36 +124,74 @@ def fix_week_df(week_df):
 def create_week_directories(week_df, seasonid):
     #drop the dataframe in the directory
     season_path = RESULTS + CURRENT_SEASON_FOLDER + week_df['id_name'][0]
-    csv_path = season_path + "\\" + str(seasonid) + "_tracks"
+    csv_path = season_path + "\\" + str(seasonid) + TRACKS
     ir_api.save_df_to_csv(week_df, csv_path)
     
     for s in week_df["name"]:
         track_path = season_path + "\\" + s
-        create_directory(track_path)
+        if create_directory(track_path) == 0:
+            return 0
+    return 1
 
-def create_season_directories(driver):
-    series_df = ir_api.get_series_df(driver)
-    series_df = create_series_directories(series_df, 2)
-    tracks_df = ir_api.get_all_tracks_per_season(driver)
-    driver.quit()
+def create_season_directories(series_df, tracks_df, catid):
+    season_path = RESULTS + CURRENT_SEASON
+    create_directory(season_path)
+    create_series_directories(series_df, catid)
+    series_df = series_df[series_df["catid"] == catid]
     for s in series_df['seasonid']:
         week_df = tracks_df[tracks_df['seasonid'] == s]
         week_df = fix_week_df(week_df)
         create_week_directories(week_df, s)
 
-def create_season_directories_slow(driver):
-    series_df = ir_api.get_series_df(driver)
-    series_df = create_series_directories(series_df, 2)
-    tracks_df = ir_api.get_all_tracks_per_season(driver)
-    for s in series_df['seasonid']:
-        week_df = ir_api.get_track_per_season(driver, s)
-        week_df = fix_week_df(week_df)
-        create_week_directories(week_df, s)
+def load_df_for_subession_data(csv_path, df_type, df_value):
+    df = pd.read_csv(csv_path)
+    #0 = series_df, df_value = raceweek
+    if(df_type == 0):
+        df = df[df['raceweek'] == df_value
+    #1 = season_df, df_value = seasonid
+    elif(df_type == 1):
+        df = df[df['seasonid'] == df_value
+    df = df.reset_index(drop = True)
+    return df
+
+
+def obtain_subsession_data_from_series(driver, season_df, seasonid, raceweek):
+    #split the season df properly, then grab the directory
+    season_df = season_df[season_df['seasonid'] == seasonid]
+    season_df = season_df.reset_index(drop = True)
+    base_path = RESULTS + CURRENT_SEASON_FOLDER + season_df['id_name'][0] + "\\"
+    
+    #grab the correct week
+    csv_path = base_path + str(seasonid) + TRACKS + CSV
+    series_df = load_series_df_for_subession_data(csv_path, 0, raceweek)
+    week_path = base_path + series_df['name'][0] + "\\"
+    
+    #pull the subsession data for the series
+    subsession_df = ir_api.get_series_race_results(driver, str(seasonid), str(raceweek))
+    csv_path = week_path + str(seasonid) + SESSIONS
+    ir_api.save_df_to_csv(subsession_df, csv_path)
+
+        
+    
 
 def main():
     driver = ir_api.initialize_driver()
     ir_api.login(driver)
-    create_season_directories(driver)
+    #load the season ids
+    csv_path = RESULTS + MAPPING + CURRENT_SEASON + SEASON_IDS + CSV
+    try:
+        #check if the mapping is created for the season
+        season_df = pd.read_csv(csv_path)
+    except FileNotFoundError:
+        #gotta create the directories
+        series_df = ir_api.get_series_df(driver)
+        tracks_df = ir_api.get_all_tracks_per_current_season(driver)
+        create_season_directories(series_df, tracks_df, 2)
+    #these will have to be refreshed every so often
+    
+    obtain_subsession_data_from_series(driver, season_df, 3164, 1)
+    
+    #load_series_subsession_data(driver, season_df, 3164)
     #this uses a separate connection per series, pretty slow, about 9-10s slower
     #create_season_directories_slow(driver)
     driver.quit()

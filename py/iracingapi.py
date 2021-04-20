@@ -278,9 +278,9 @@ def get_subsession_results(driver, subsession_id):
     header_df = header_df.join(subsession_df)
     return header_df
 
-def get_series_race_results(driver, series_number, raceweek):
-    url = SERIES_RACE_RESULTS_URL + series_number + AND + RACE_WEEK + raceweek
-    file_name = RAW_RESULTS + series_number
+def get_series_race_results(driver, seriesid, raceweek):
+    url = SERIES_RACE_RESULTS_URL + seriesid + AND + RACE_WEEK + raceweek
+    file_name = RAW_RESULTS + seriesid
     #obtain the json from the url so we only request it once
     json_data = get_json_from_url(driver, url)
     df_columns = get_headers_from_json(json_data, 'm')
@@ -416,7 +416,7 @@ def get_track_df(driver):
     track_df = cleanup_df(track_df, 0)
     return track_df
 
-def get_all_tracks_per_season(driver):
+def get_all_tracks_per_current_season(driver):
     season_df = get_df_from_season(driver, 1, 3)
     track_df = loop_through_season_df(season_df, "tracks")
     return track_df
