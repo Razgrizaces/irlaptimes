@@ -143,17 +143,16 @@ def create_season_directories(series_df, tracks_df, catid):
         week_df = fix_week_df(week_df)
         create_week_directories(week_df, s)
 
-def load_df_for_subession_data(csv_path, df_type, df_value):
+def load_series_df_for_subession_data(csv_path, df_type, df_value):
     df = pd.read_csv(csv_path)
     #0 = series_df, df_value = raceweek
     if(df_type == 0):
-        df = df[df['raceweek'] == df_value
+        df = df[df['raceweek'] == df_value]
     #1 = season_df, df_value = seasonid
     elif(df_type == 1):
-        df = df[df['seasonid'] == df_value
+        df = df[df['seasonid'] == df_value]
     df = df.reset_index(drop = True)
     return df
-
 
 def obtain_subsession_data_from_series(driver, season_df, seasonid, raceweek):
     #split the season df properly, then grab the directory
@@ -170,31 +169,71 @@ def obtain_subsession_data_from_series(driver, season_df, seasonid, raceweek):
     subsession_df = ir_api.get_series_race_results(driver, str(seasonid), str(raceweek))
     csv_path = week_path + str(seasonid) + SESSIONS
     ir_api.save_df_to_csv(subsession_df, csv_path)
-
-        
     
+    return subsession_df
+    
+def obtain_race_data_from_subesssions(driver, season_df, seasonid, raceweek):
+    #this is the big cheese
+    season_df = season_df[season_df['seasonid'] == seasonid]
+    season_df = season_df.reset_index(drop = True)    
+    base_path = RESULTS + CURRENT_SEASON_FOLDER + season_df['id_name'][0] + "\\"
+    csv_path = base_path + str(seasonid) + TRACKS + CSV
+    series_df = load_series_df_for_subession_data(csv_path, 0, raceweek)
+    week_path = base_path + series_df['name'][raceweek-1] + "\\" 
+    subsession_path = week_path + str(seasonid) + SESSIONS + CSV
+    subsession_df = pd.read_csv(subsession_path, index_col = 0)
+    print(subsession_df)
+    #for s in subsession_df['subsessionid']:
+    s = subsession_df['subsessionid'][0]
+    print(s)
+    subsession = str(s)
+    results_df = ir_api.get_combined_subsession_and_lap_data(driver, str(s))
+    #print(results_df)
+    results_csv_path = week_path + subsession 
+    ir_api.save_df_to_csv(results_df, results_csv_path)
 
-def main():
+#this is the method that will get looped to obtain the data from iracing's servers    
+def obtain_subsession_results_for_season():
+    #initialize and login
     driver = ir_api.initialize_driver()
     ir_api.login(driver)
-    #load the season ids
+    
+    #Check if the current season is different [*]
+    
+    #if so, change the current season to a different name, means we have to create new directories [*]
+        #if week 13, create a new directory for the 13th week [*]
+    
+    #if not, then let's begin loading the data.
     csv_path = RESULTS + MAPPING + CURRENT_SEASON + SEASON_IDS + CSV
     try:
         #check if the mapping is created for the season
-        season_df = pd.read_csv(csv_path)
+        season_df = pd.read_csv(csv_path, index_col = 0)
     except FileNotFoundError:
-        #gotta create the directories
+        #create the directories since they're not created.
         series_df = ir_api.get_series_df(driver)
         tracks_df = ir_api.get_all_tracks_per_current_season(driver)
         create_season_directories(series_df, tracks_df, 2)
-    #these will have to be refreshed every so often
     
+    #for each series, loop through all of them to obtain the subsession data
     obtain_subsession_data_from_series(driver, season_df, 3164, 1)
+    obtain_race_data_from_subesssions(driver, season_df, 3164, 1)
+
+    #print(season_df)
+    
+    
+    #quit the driver.
+    driver.quit()
+
+def main():
+    obtain_subsession_results_for_season()
+    
+    #these will have to be refreshed every so often
+    #obtain_subsession_data_from_series(driver, season_df, 3164, 1)
     
     #load_series_subsession_data(driver, season_df, 3164)
     #this uses a separate connection per series, pretty slow, about 9-10s slower
     #create_season_directories_slow(driver)
-    driver.quit()
+    #driver.quit()
     
     #input("Press enter to quit")   
     #ir_api.update_active()

@@ -299,13 +299,13 @@ def get_lap_chart(driver, subsession_id):
     #keeps the columns from wanted_columns, since there's so much useless data here
     startgrid_df = keep_wanted_columns(startgrid_df, wanted_columns)
     lapdata_df = create_df_from_json_data(parse_json(json_data, 'lapdata'))
+    
     combined_df = pd.merge(startgrid_df, lapdata_df, how = 'inner', on = CARNUM)
-    file_name =  RAW_RESULTS + subsession_id + LAP_DATA + CSV
-    combined_df.to_csv(file_name)
+    combined_df["lap_time"] = combined_df.groupby("displayName").sesTime.diff().fillna(0)
     return combined_df
         
 #combines the subsession and lap data to provide a neatly packaged lap table
-def combine_subsession_and_lap_data(driver, subsession_id):
+def get_combined_subsession_and_lap_data(driver, subsession_id):
     lap_chart_df = get_lap_chart(driver, subsession_id)
     subsession_results_df = get_subsession_results(driver, subsession_id)
     combined_df = pd.merge(subsession_results_df, lap_chart_df, how = 'inner', on = CARNUM)
