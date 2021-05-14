@@ -1,5 +1,5 @@
 ,seriesname,seasonid,lowername,name,id,pkgid,priority,raceweek,config,timeOfDay,id_name
-0,Creventic+Endurance+Series,3226,circuit+de+spa-francorchamps,1_Circuit_de_Spa-Francorchamps#Endurance,165,103,0,1,Endurance,1,3226#Creventic_Endurance_Series
-1,Creventic+Endurance+Series,3226,hockenheimring+baden-w%C3%BCrttemberg,2_Hockenheimring_Baden-Württemberg#Grand_Prix,390,350,0,2,Grand+Prix,1,3226#Creventic_Endurance_Series
-2,Creventic+Endurance+Series,3226,circuit+de+barcelona+catalunya,3_Circuit_de_Barcelona_Catalunya#Grand_Prix,345,292,0,3,Grand+Prix,1,3226#Creventic_Endurance_Series
-3,Creventic+Endurance+Series,3226,sebring+international+raceway,4_Sebring_International_Raceway#International,95,40,1,4,International,1,3226#Creventic_Endurance_Series
+0,Creventic+Endurance+Series,3226,circuit+de+spa-francorchamps,1#Circuit_de_Spa-Francorchamps#Endurance,165,103,0,1,Endurance,1,3226#Creventic_Endurance_Series
+1,Creventic+Endurance+Series,3226,hockenheimring+baden-w%C3%BCrttemberg,2#Hockenheimring_Baden-Württemberg#Grand_Prix,390,350,0,2,Grand+Prix,1,3226#Creventic_Endurance_Series
+2,Creventic+Endurance+Series,3226,circuit+de+barcelona+catalunya,3#Circuit_de_Barcelona_Catalunya#Grand_Prix,345,292,0,3,Grand+Prix,1,3226#Creventic_Endurance_Series
+3,Creventic+Endurance+Series,3226,sebring+international+raceway,4#Sebring_International_Raceway#International,95,40,1,4,International,1,3226#Creventic_Endurance_Series

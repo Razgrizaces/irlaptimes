@@ -3,3 +3,4 @@ py/cookies.py
 credentials.json
 readme.txt
 debug.log
+results/**

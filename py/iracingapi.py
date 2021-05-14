@@ -138,7 +138,11 @@ def get_headers_from_json(data, parse):
     data = data[parse]
     headers = []
     for i in range (1, 9):
-        headers.append(data[str(i)])
+        try:
+            headers.append(data[str(i)])
+        except KeyError:
+            print("No data found.")
+            break
     return headers
 
 def get_json_from_url(driver, url):
@@ -255,7 +259,7 @@ def get_subsession_results(driver, subsession_id):
     file_name = RAW_RESULTS + subsession_id + SUBSESSION_RESULTS
     
     #you can change these fields, I felt these were the most relevant. 
-    kept_fields = ['subsessionid', 'season_name', 'eventstrengthoffield']
+    kept_fields = ['subsessionid', 'season_name', 'eventstrengthoffield', 'weather_temp_value']
     
     #obtain the json from the url so we only get this once
     json_data = get_json_from_url(driver, url)
@@ -284,8 +288,11 @@ def get_series_race_results(driver, seriesid, raceweek):
     #obtain the json from the url so we only request it once
     json_data = get_json_from_url(driver, url)
     df_columns = get_headers_from_json(json_data, 'm')
-    df = create_df_from_json_data(parse_json(json_data, 'd'))
-    df.columns = df_columns
+    if(df_columns != []):
+        df = create_df_from_json_data(parse_json(json_data, 'd'))
+        df.columns = df_columns
+    else:
+        df = pd.DataFrame(index = [], columns = [])
     return df
 
 #this combines the lap data so it's usable
@@ -300,13 +307,16 @@ def get_lap_chart(driver, subsession_id):
     startgrid_df = keep_wanted_columns(startgrid_df, wanted_columns)
     lapdata_df = create_df_from_json_data(parse_json(json_data, 'lapdata'))
     
-    combined_df = pd.merge(startgrid_df, lapdata_df, how = 'inner', on = CARNUM)
-    combined_df["lap_time"] = combined_df.groupby("displayName").sesTime.diff().fillna(0)
-    return combined_df
-        
+    if(lapdata_df.empty == False):
+        combined_df = pd.merge(startgrid_df, lapdata_df, how = 'inner', on = CARNUM)
+        combined_df["lap_time"] = combined_df.groupby("displayName").sesTime.diff().fillna(0)
+        return combined_df
+    return pd.DataFrame(index = [], columns = [])
 #combines the subsession and lap data to provide a neatly packaged lap table
 def get_combined_subsession_and_lap_data(driver, subsession_id):
     lap_chart_df = get_lap_chart(driver, subsession_id)
+    if(lap_chart_df.empty == True):
+        return pd.DataFrame(index = [], columns = [])
     subsession_results_df = get_subsession_results(driver, subsession_id)
     combined_df = pd.merge(subsession_results_df, lap_chart_df, how = 'inner', on = CARNUM)
     combined_df.drop(FINISH_POS, axis=1)
