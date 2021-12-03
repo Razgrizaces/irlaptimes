@@ -45,7 +45,7 @@ CURRENT_SEASON = "21S2"
 
 #modified constants, create your own here, I'm just using these to grab the ids. 
 SEASON_CAR_FIELDS = "fields=seasonid,seriesname,cars,carid"
-SEASON_SERIES_FIELDS = "fields=seasonid,seriesname,catid"
+SEASON_SERIES_FIELDS = "fields=seasonid,seriesname,catid,lowerseasonshortname"
 SEASON_TRACK_FIELDS = "fields=seasonid,seriesname,tracks,trackid"
 
 #Constants for some important fields
@@ -238,6 +238,7 @@ def loop_through_season_df(season_df, type_string):
         
         #creates a df with the ids/season names
         id_df = pd.DataFrame(season_df.iloc[[i]])
+        #print(id_df)
         id_df = create_df_to_add_columns(id_df, len(fields_df['id']))
         
         #combines the df with the season names to the type df
@@ -284,7 +285,7 @@ def get_subsession_results(driver, subsession_id):
 
 def get_series_race_results(driver, seriesid, raceweek):
     url = SERIES_RACE_RESULTS_URL + seriesid + AND + RACE_WEEK + raceweek
-    file_name = RAW_RESULTS + seriesid
+    #file_name = RAW_RESULTS + seriesid
     #obtain the json from the url so we only request it once
     json_data = get_json_from_url(driver, url)
     df_columns = get_headers_from_json(json_data, 'm')
@@ -394,6 +395,9 @@ def cleanup_df(df, is_season):
         df_name = "seriesname"
         df_id = "seasonid"
     df[df_name] = df[df_name].str.replace("+", " ")
+    if is_season == 1:
+        df_name = "lowerseasonshortname"
+        df[df_name] = df[df_name].str.replace("+", " ")
     df = df.sort_values(by = df_id)
     df = df.drop_duplicates(subset = df_id)
     df = df.reset_index(drop = True)
@@ -418,8 +422,16 @@ def get_series_df(driver):
     series_df = cleanup_df(series_df, 1)
     return series_df
 
+def get_all_series_df(driver):
+    series_df = get_df_from_season(driver, 0, 2)
+    #replaces the + with spaces for readability, removes duplicates and sorts the value by id
+    #columns = ['seasonid','seriesname']
+    #season_df = season_df[columns]
+    series_df = cleanup_df(series_df, 1)
+    return series_df
+
 def get_track_df(driver):
-    track_df = get_all_tracks_per_season(driver)
+    track_df = get_all_tracks_per_current_season(driver)
     columns = ['name', 'id']
     track_df['name'] = track_df['name'] +"|" +  track_df['config']
     track_df = track_df[columns]
@@ -428,6 +440,11 @@ def get_track_df(driver):
 
 def get_all_tracks_per_current_season(driver):
     season_df = get_df_from_season(driver, 1, 3)
+    track_df = loop_through_season_df(season_df, "tracks")
+    return track_df
+
+def get_all_tracks_per_non_current_season(driver):
+    season_df = get_df_from_season(driver, 0, 3)
     track_df = loop_through_season_df(season_df, "tracks")
     return track_df
 
@@ -443,7 +460,7 @@ def update_cars_csv(driver, file_name):
    
 #updates the current seasons. 
 def update_season_csv(driver, file_name):
-    save_df_to_csv(get_season_df(driver), file_name)
+    save_df_to_csv(get_series_df(driver), file_name)
     
 #updates the current tracks. 
 def update_tracks_csv(driver, file_name):

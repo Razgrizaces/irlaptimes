@@ -1,7 +1,0 @@
-,seriesname,seasonid,lowername,name,id,pkgid,priority,raceweek,config,timeOfDay,id_name
-0,VRS+European+Endurance+Series,3167,sebring+international+raceway,1#Sebring_International_Raceway#International,95,40,1,1,International,2,3167#VRS_European_Endurance_Series
-1,VRS+European+Endurance+Series,3167,autodromo+nazionale+monza,2#Autodromo_Nazionale_Monza#Grand_Prix,239,172,1,2,Grand+Prix,9,3167#VRS_European_Endurance_Series
-2,VRS+European+Endurance+Series,3167,hockenheimring+baden-w%C3%BCrttemberg,3#Hockenheimring_Baden-Württemberg#Grand_Prix,390,350,0,3,Grand+Prix,1,3167#VRS_European_Endurance_Series
-3,VRS+European+Endurance+Series,3167,circuit+des+24+heures+du+mans,4#Circuit_des_24_Heures_du_Mans#24_Heures_du_Mans,268,204,1,4,24+Heures+du+Mans,5,3167#VRS_European_Endurance_Series
-4,VRS+European+Endurance+Series,3167,circuit+de+spa-francorchamps,5#Circuit_de_Spa-Francorchamps#Grand_Prix_Pits,163,103,2,5,Grand+Prix+Pits,2,3167#VRS_European_Endurance_Series
-5,VRS+European+Endurance+Series,3167,road+america,6#Road_America#Full_Course,18,11,1,6,Full+Course,9,3167#VRS_European_Endurance_Series
