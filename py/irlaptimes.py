@@ -31,9 +31,9 @@ CARS = "_cars"
 MMM = "_mmm"
 
 #you should change this for the season, 
-PREVIOUS_SEASON = "21S3"
+PREVIOUS_SEASON = "21S4"
 global CURRENT_SEASON
-CURRENT_SEASON = "21S4"
+CURRENT_SEASON = "22S1"
 
 #constants for the folder names
 RESULTS = "results/"
@@ -93,6 +93,7 @@ def create_series_directories(series_df, catid):
     ir_api.save_df_to_csv(series_df, mapping_path)
     
     series_df = series_df[series_df["catid"] == catid]
+    series_df['season'] = CURRENT_SEASON
     #create the season folder
     season_path = RESULTS_PATH
     #create the seasons for that season folder
@@ -184,7 +185,7 @@ def obtain_track_data_for_series(season_df, raceweek, season):
 def obtain_subsession_data_from_series(driver, season_df, raceweek, season):
     #split the season df properly, then grab the directory
     seasonid = season_df['seasonid'].iloc[0]
-    
+
     if season != CURRENT_SEASON:
         base_path = RESULTS + season + "/" + season_df['id_name'].iloc[0] + "/"
     else:
@@ -349,7 +350,6 @@ def current_season_check(driver):
 def raceweek_check(season_df, track_df, season):
     season_id_name = season_df['id_name'].iloc[0]
     
-    
     if season != CURRENT_SEASON:
         base_path = RESULTS + season + "/" + season_df['id_name'].iloc[0] + "/"
     else:
@@ -383,7 +383,7 @@ def obtain_subsession_results_for_season():
     
     season_df = load_season_df(driver, CURRENT_SEASON)
     season_df = season_df[season_df['catid'] == 2]
-    wanted_ids = [3460, 3398, 3399, 3400,3402,3360,3358]
+    wanted_ids = [3529,3520,3522]
     season_df = season_df[season_df['seasonid'].isin(wanted_ids)]
     season_df = season_df.reset_index(drop = True)
     
@@ -412,10 +412,8 @@ def obtain_subsession_results_for_season():
 def combine_session_dataframes(subsession_df, subsessions_path, track_df, driver):
     if subsession_df.empty == 0:
         #create a mother df so we can combine all the data into one fat df
-        columns_to_keep = ['weather_temp_value','custid','oldirating','carid','lap_time','ccName', 'subsessionid']
+        columns_to_keep = ['weather_temp_value','custid','oldirating','carid','lap_time','ccName', 'subsessionid','lapnum', 'flags']
         session_data_df = pd.DataFrame(columns = columns_to_keep)
-        columns_to_keep_mmm = ['weather_temp_value','custid','oldirating','carid','lap_time','ccName', 'type', 'subsessionid']
-        session_mmm_df = pd.DataFrame(columns = columns_to_keep_mmm)
 
         for s in subsession_df['subsessionid']:
             csv_path = subsessions_path + str(s) + CSV
@@ -428,48 +426,19 @@ def combine_session_dataframes(subsession_df, subsessions_path, track_df, driver
                 print(session_df)
                 print(csv_path + " not found")
             if(session_df.empty == False):
-                session_df = trim_session_df(session_df, columns_to_keep)
-                session_mmm = create_min_max_mean_for_results_df(session_df)
-                
+                #session_df = trim_session_df(session_df, columns_to_keep)
+                session_df = session_df[columns_to_keep]
+                session_df = session_df[session_df['lapnum'] != 0]
                 session_data_df = pd.concat([session_data_df, session_df])
-                session_mmm_df = pd.concat([session_mmm_df, session_mmm])
         print("Finished reading all subsessions.")
+        print(session_data_df)
         full_data_csv_path = subsessions_path + str(track_df['seasonid']) + "_" + str(track_df['raceweek']) + LAP_DATA
-        session_data_df = session_data_df.sort_values(by = ['oldirating','lap_time'])
+        session_data_df = session_data_df.sort_values(by = ['custid','subsessionid'])
         session_data_df = session_data_df.reset_index(drop = True)
-        
-        session_mmm_df = session_mmm_df.sort_values(by = ['oldirating','lap_time'])
-        session_mmm_df = session_mmm_df.reset_index(drop = True)
         
         ir_api.save_df_to_csv(session_data_df, full_data_csv_path)
         
-        ir_api.save_df_to_csv(session_mmm_df, full_data_csv_path + "_mmm")
-        
         return session_data_df
-
-def calculate_avg_time_per_irating_per_week(week_lap_data_df, irating, carid, csv_path):
-    
-    
-    #trim the carid if we want to trim one
-    if(carid != -1):
-        week_lap_data_df = week_lap_data_df[week_lap_data_df['carid'] == carid]
-    
-    #trim the df first
-    #week_lap_data_df = week_lap_data_df[week_lap_data_df['oldirating'].between(lower_bounds, upper_bounds)]
-    
-    #sort the df by irating, weather and lap time
-    week_lap_data_df.sort_values(by = ['oldirating','weather_temp_value', 'lap_time'])
-    week_lap_data_df['weather_temp_value'] = week_lap_data_df['weather_temp_value'].astype(float).round(2)
-    
-    avg_lap_time = week_lap_data_df.groupby(by=['custid']).lap_time.mean()
-    
-    print(avg_lap_time)
-    
-    csv_save_path = csv_path + "_per_week"
-
-    ir_api.save_df_to_csv(week_lap_data_df, csv_save_path)
-
-    return week_lap_data_df
 
 def add_type_to_results_df(lap_time_df, results_df, type_num):
     results_df = pd.merge(results_df, lap_time_df, how = 'inner', on = 'custid')
@@ -491,9 +460,6 @@ def create_min_max_mean_for_results_df(results_df):
     avg_lap_time = results_df.groupby(by=['custid']).lap_time.mean()
     max_lap_time = results_df.groupby(by=['custid']).lap_time.max()
     
-    #drop the min and max time before we add it to the df
-    
-    
     combine_df_min = add_type_to_results_df(min_lap_time, combine_df, "min")
     combine_df_avg = add_type_to_results_df(avg_lap_time, combine_df, "avg")
     combine_df_max = add_type_to_results_df(max_lap_time, combine_df, "max")
@@ -512,10 +478,11 @@ def trim_session_df(results_df, columns_to_keep):
     
     #trim the columns
     results_df = results_df[columns_to_keep]
+    #based on the 1.07 rule in F1, might tweak this a bit
     cutoff_time = results_df['lap_time'].min(axis=0) * 1.07
     max_time = results_df['lap_time'].max(axis=0)
     
-    #print(max_time, cutoff_time)
+    print(max_time, cutoff_time)
     #print(round(max_time/cutoff_time,2))'
     #print(cutoff_time) 
     #takes the laps that are within the cutoff time
@@ -524,64 +491,107 @@ def trim_session_df(results_df, columns_to_keep):
     #print(results_df['flags'])
     return results_df
 
-def test_loop():
-
-    season_df = load_season_df(None, "21S3")
-    season_df = season_df[season_df['catid'] == 2]
-    wanted_ids = [3280,3278]
-    print(season_df['seasonid'])
-    season_df = season_df[season_df['seasonid'].isin(wanted_ids)]
-    season_df = season_df.reset_index(drop = True)
-    #log into the api in case we need to pull subsessions
-    driver = ir_api.initialize_driver()
-    ir_api.login(driver)
-    season = "21S3"
-    #grab the series
-    for i in wanted_ids:
-        series_df = slice_season_df_from_seasonid(season_df, i)
-        base_path = RESULTS + season + "/" + series_df['id_name'].iloc[0] + "/"
+def create_mmm_df_for_seasons(season_df):
+    for s in season_df:
+        series_df = slice_season_df_from_seasonid(season_df, s)
+        base_path = RESULTS + season_df['season'][0] + "/" + series_df['id_name'].iloc[0] + "/"
         print(base_path)
-        track_df = obtain_track_data_for_series(series_df, -1,  season)
+        track_df = obtain_track_data_for_series(series_df, -1,  season_df['season'][0])
         for t in track_df.iloc:
             subsessions_path = base_path + t['name'] + "/"
             print(t['raceweek'], t['seasonid'])
             csv_path = subsessions_path + str(t['seasonid']) + "_" + str(t['raceweek']) + SESSIONS + CSV 
             mmm_df = pd.DataFrame()
-            #try:
-            #    mmm_df_path = subsessions_path + str(t['seasonid']) + "_" + str(t['raceweek']) + LAP_DATA + CSV
-            #    mmm_df = pd.read_csv(mmm_df_path, index_col=0)
-            #except FileNotFoundError:
-            #    print("mmm df doesn't exist, so we'll create one")
-            #if mmm_df.empty == True:
             try:
-                #this obtains all the subsessions for that week
-                subsession_df = pd.read_csv(csv_path, index_col = 0)
-                print(csv_path + "Found")
-                #print("Combining data for subsessions... for week " + str(t['raceweek']))
-                week_lap_data_df = combine_session_dataframes(subsession_df, subsessions_path, t, driver)
-                fat_df_path = subsessions_path + str(t['seasonid']) + "_" + str(t['raceweek']) + LAP_DATA
-                fat_df_csv_path = fat_df_path + CSV
-                #read the session df, if it exists
-                #week_lap_data_df = pd.read_csv(fat_df_csv_path, index_col = 0)
-                print("Calculating avg time per irating per week for week " + str(t['raceweek']))
-                print(fat_df_path)
-                calculate_avg_time_per_irating_per_week(week_lap_data_df, 1350, -1, fat_df_path)
+                mmm_df_path = subsessions_path + str(t['seasonid']) + "_" + str(t['raceweek']) + LAP_DATA + CSV
+                mmm_df = pd.read_csv(mmm_df_path, index_col=0)
             except FileNotFoundError:
-                print(csv_path + " Not found")
+                print("mmm df doesn't exist, so we'll create one")
+                #was the data pulled?
+            if mmm_df.empty == True:
+                try:
+                    #this obtains all the subsessions for that week
+                    subsession_df = pd.read_csv(csv_path, index_col = 0)
+                    print(csv_path + "Found")
+                    #print("Combining data for subsessions... for week " + str(t['raceweek']))
+                    week_lap_data_df = combine_session_dataframes(subsession_df, subsessions_path, t)
+                    fat_df_path = subsessions_path + str(t['seasonid']) + "_" + str(t['raceweek']) + LAP_DATA
+                    fat_df_csv_path = fat_df_path + CSV
+                    #read the session df, if it exists
+                    #week_lap_data_df = pd.read_csv(fat_df_csv_path, index_col = 0)
+                    print("Calculating avg time per irating per week for week " + str(t['raceweek']))
+                    print(fat_df_path)
+                    #calculate_avg_time_per_irating_per_week(week_lap_data_df, 1350, -1, fat_df_path)
+                except FileNotFoundError:
+                    print(csv_path + " Not found")
+                   
+
+def test_loop():
+    season_df = load_season_df(None, "22S1")
+    season_df = season_df[season_df['catid'] == 2]
+    wanted_ids = [3529]
+    #print(season_df['seasonid'])
+    season_df = season_df[season_df['seasonid'].isin(wanted_ids)]
+    season_df = season_df.reset_index(drop = True)
+    #log into the api in case we need to pull subsessions
+    driver = ir_api.initialize_driver()
+    ir_api.login(driver)
+    season = "22S1"
+    #grab the series
+    for i in wanted_ids:
+        series_df = slice_season_df_from_seasonid(season_df, i)
+        base_path = RESULTS + season + "/" + series_df['id_name'].iloc[0] + "/"
+        #print(base_path)
+        track_df = obtain_track_data_for_series(series_df, -1,  season)
+        for t in track_df.iloc:
+            subsessions_path = base_path + t['name'] + "/"
+            print(t['raceweek'], t['seasonid'])
+            csv_path = subsessions_path + str(t['seasonid']) + "_" + str(t['raceweek']) + SESSIONS + CSV    
+            mmm_df = pd.DataFrame()
+            try:
+                mmm_df_path = subsessions_path + str(t['seasonid']) + "_" + str(t['raceweek']) + LAP_DATA + CSV
+                mmm_df = pd.read_csv(mmm_df_path, index_col=0)
+            except FileNotFoundError:
+                print("lap data df doesn't exist, so we'll create one")
+                #was the data pulled?
+                print(mmm_df)
+            if mmm_df.empty == True:
+                try:
+                    #this obtains all the subsessions for that week
+                    subsession_df = pd.read_csv(csv_path, index_col = 0)
+                    print(csv_path + "Found")
+                    #print("Combining data for subsessions... for week " + str(t['raceweek']))
+                    week_lap_data_df = combine_session_dataframes(subsession_df, subsessions_path, t, driver)
+                    fat_df_path = subsessions_path + str(t['seasonid']) + "_" + str(t['raceweek']) + LAP_DATA
+                    fat_df_csv_path = fat_df_path + CSV
+                    #read the session df, if it exists
+                    #week_lap_data_df = pd.read_csv(fat_df_csv_path, index_col = 0)
+                    print("Calculating avg time per irating per week for week " + str(t['raceweek']))
+                    print(fat_df_path)
+                    #calculate_avg_time_per_irating_per_week(week_lap_data_df, 1350, -1, fat_df_path)
+                except FileNotFoundError:
+                    print(csv_path + " Not found")
+
+#formats the time to make it simlilar to how iracing displays time
+def format_duration(x):
+    seconds, milliseconds  = divmod(x, 10000)
+    milliseconds = int(milliseconds/10)
+    minutes, seconds = divmod(seconds, 60)
+    seconds = int(seconds)
+    minutes = int(minutes)
+    return '{:02d}:{:02d}:{:3d}'.format(minutes, seconds, milliseconds)
 
 def main():
     
-    test_loop()
-    #driver = ir_api.initialize_driver()
-    #ir_api.login(driver)
-    #CURRENT_SEASON = current_season_check(driver)
-    #print(CURRENT_SEASON)
+    #test_loop() 
+    #lap_data = pd.read_csv("results\\21S3\\3280#VRS_GT_Sprint_Series\\1#Road_Atlanta#Full_Course\\3280_1_lap_data.csv", index_col = 0)
+    #print(lap_data)
+    #lap_data['lap_time_iracing'] = lap_data['lap_time'].apply(format_duration)
+    #print(lap_data['lap_time_iracing'])
     
-    #obtain_subsession_results_for_season()
+    obtain_subsession_results_for_season()
     
     #these will have to be refreshed every so often
-    #obtain_subsession_data_from_series(driver, season_df, 3164, 1)
-
     #input("Press enter to quit")   
     #ir_api.update_active()
     #driver.quit()
