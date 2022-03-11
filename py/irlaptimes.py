@@ -583,13 +583,13 @@ def format_duration(x):
 
 def main():
     
-    #test_loop() 
+    test_loop() 
     #lap_data = pd.read_csv("results\\21S3\\3280#VRS_GT_Sprint_Series\\1#Road_Atlanta#Full_Course\\3280_1_lap_data.csv", index_col = 0)
     #print(lap_data)
     #lap_data['lap_time_iracing'] = lap_data['lap_time'].apply(format_duration)
     #print(lap_data['lap_time_iracing'])
     
-    obtain_subsession_results_for_season()
+    #obtain_subsession_results_for_season()
     
     #these will have to be refreshed every so often
     #input("Press enter to quit")   
